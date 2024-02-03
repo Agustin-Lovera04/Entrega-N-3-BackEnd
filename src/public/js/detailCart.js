@@ -1,7 +1,7 @@
-
+const socket = io()
 const cartContainer = document.getElementById('containerCart')
 
-io.on('cart', (cart)=>{
+socket.on('cart', (cart)=>{
     cartContainer.innerHTML = `
     <table>
         <tr id="tr">
