@@ -2,6 +2,8 @@ import { Router } from "express";
 import { productsModel } from "../dao/models/productsModel.js";
 import { passportCall, securityAcces } from "../utils.js";
 import { currentDTO } from "../DTO/currentDTO.js";
+import { ProductsController } from "../controller/productsController.js";
+import { CartsController } from "../controller/cartsController.js";
 export const router = Router();
 
 export const auth =(req,res,next)=>{
@@ -37,6 +39,43 @@ router.get('/current',passportCall('jwt'),securityAcces(["public"]),async(req,re
   res.status(200).render('perfil', {user});
 
 });
+
+
+router.get('/products', passportCall('jwt'), securityAcces(["public"]), async (req, res) => {
+  try {
+    const renderData = await ProductsController.renderData(req);
+
+    res.render('viewProducts', renderData);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+router.get('/products/:id', passportCall('jwt'), securityAcces(["public"]),async (req,res)=>{
+  try {
+    const renderProductById = await ProductsController.getProductById(req)
+    res.status(200).render("viewDetailProduct", renderProductById);
+  } catch (error) {
+    
+  }
+})
+
+router.get('/carts', passportCall('jwt'), securityAcces(["public"]),async (req,res)=>{
+  try {
+    const renderCart = await CartsController.render(req)
+    res.render('viewCarts', renderCart)
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+})
+router.get('/carts/:id', passportCall('jwt'), securityAcces(["public"]),async (req,res)=>{
+  try {
+    const cart = await CartsController.getCartById(req)
+    
+    return res.render('viewDetailCarts', cart)
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+})
 
 /* ENDPOINT PARA PROBAR SEGURIDAD */
 router.get('/support', passportCall('jwt'),securityAcces(["admin"]),(req,res)=>{

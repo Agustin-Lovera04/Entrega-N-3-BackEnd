@@ -1,8 +1,9 @@
-<h1 class="text-center mt-4 view-title">DETALLE CARRITO:</h1>
+<div id="cart" cart='{{cart._id}}'></div>
+ <h1 class="text-center mt-4 view-title">DETALLE CARRITO:</h1>
+  <div id="cartContainer" class="container mt-4">
 <hr class="hr-divider" />
-  <div id="containerCart" class="container mt-4">
-{{!-- 
-    <div id="containerProducts" class="row justify-content-center">
+
+   {{!--  <div id="containerProducts" class="row justify-content-center">
       <div class="col-md-8">
         <div class="card">
           <ul class="list-group list-group-flush">
@@ -19,6 +20,8 @@
                   <p class="card-text">{{this.product.description}}</p>
                   <p class="card-text"><strong>Id producto:</strong>{{this.product._id}}</p>
                   <p class="card-text"><strong>Cantidad:</strong>{{this.quantity}}</p>
+                  <p class="card-text"><strong>Precio Unitario: $-</strong>{{this.product.price}}</p>
+                  <p class="card-text"><strong>Subtotal: $</strong>{{multiply this.product.price this.quantity}}</p>
                   <hr class="hr-divider" />
                   {{/each}}
 
@@ -32,7 +35,7 @@
         </div>
       </div>
     </div>
-  </div> --}}
-
+  </div>
+ --}}
   <script src="/socket.io/socket.io.js"></script>
   <script src="/js/detailCart.js"></script>

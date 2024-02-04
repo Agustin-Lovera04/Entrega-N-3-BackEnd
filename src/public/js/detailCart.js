@@ -1,4 +1,7 @@
-const socket = io()
+
+/*  const prodQuantity = prodQuantityElement.getAttribute('quantity') 
+ const containerCart = document.getElementById('containerCart')
+/* const socket = io()
 const cartContainer = document.getElementById('containerCart')
 
 socket.on('cart', (cart)=>{
@@ -47,3 +50,4 @@ cartContainer.appendChild(totalCompra)
 
 
 
+ */

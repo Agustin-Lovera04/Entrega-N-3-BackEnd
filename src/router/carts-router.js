@@ -12,10 +12,10 @@ export const router = Router();
 const managerCarts = new ManagerCarts();
 const upload = multer();
 
-router.get("/", passportCall('jwt'), CartsController.render);
-
+/* router.get("/", passportCall('jwt'), CartsController.render); */
+/* 
 router.get("/:id", passportCall('jwt'),CartsController.getCartById);
-
+ */
 router.post("/:cid/product/:pid", passportCall('jwt'),securityAcces(["user"]),CartsController.addProductInCart);
 
 router.post("/", passportCall('jwt'),upload.none(), securityAcces(["admin"]),CartsController.createCart);

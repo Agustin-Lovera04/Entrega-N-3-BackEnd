@@ -29,9 +29,9 @@ function idValid(id, res) {
   }
 }
  */
-router.get("/", passportCall('jwt'),ProductsController.render);
+/* router.get("/"/* , passportCall('jwt'),ProductsController.render); */
 
-router.get("/:id", passportCall('jwt'),ProductsController.getProductById);
+/* router.get("/:id", passportCall('jwt'),ProductsController.getProductById); */
 
 router.post("/", passportCall('jwt'),upload.none(), securityAcces(["admin"]),ProductsController.createProduct);
 

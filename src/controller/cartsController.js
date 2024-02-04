@@ -26,9 +26,9 @@ export class CartsController {
         console.log(`Se estableció un límite de: ${req.query.limit}`);
       }
 
-      res.status(200).render("viewCarts", {
+      return{
         carts,
-      });
+      };
     } catch (error) {
       console.error("Error al renderizar la vista:", error);
       res.status(500).json(error.message);
@@ -48,15 +48,14 @@ export class CartsController {
         console.log("Error en la búsqueda por ID");
         return null;
       }
-/*     let total = 0
+/*      let total = 0
     getCart.products.forEach(product => {
       const subtotal = product.product.price * product.quantity;
       total += subtotal;
-    }); */
-    console.log('ESTE ES GET CART ' + getCart)
+    }); 
+    console.log('ESTE ES GET CART ' + getCart) */
 
-    io.emit('cart', getCart)
-     res.status(200).render("viewDetailCarts", { cart: getCart/* ,total */});
+     return { cart: getCart/* ,total */};
     } catch (error) {
       return res.status(500).json({
         error: error.message,
@@ -101,6 +100,7 @@ export class CartsController {
 
       let saveModProduct = productsService.updateProduct(pid, body)
       console.log('stock actualizado')
+      
       console.log("carro modificado: " + cartMod);
       return res.status(200).json({ cartMod });
     } catch (error) {

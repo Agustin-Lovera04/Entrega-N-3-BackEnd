@@ -88,16 +88,16 @@
 
   <div class="text-center">
     {{#if sort}}
-    <a href="/api/products/?page=1&sort={{sort}} " class="btn btn-pagination btn-primary">Pág.1</a>
+    <a href="/products?page=1&sort={{sort}} " class="btn btn-pagination btn-primary">Pág.1</a>
     {{else}}
-    <a href="/api/products/?page=1" class="btn btn-pagination btn-primary">Pág.1</a>
+    <a href="/products?page=1" class="btn btn-pagination btn-primary">Pág.1</a>
     {{/if}}
 
     {{#if hasPrevPage}}
     {{#if sort}}
-    <a href="/api/products/?page={{prevPage}}&sort={{sort}} " class="btn btn-pagination btn-primary">Pág.Ant.</a>
+    <a href="?/productspage={{prevPage}}&sort={{sort}} " class="btn btn-pagination btn-primary">Pág.Ant.</a>
     {{else}}
-    <a href="/api/products/?page={{prevPage}}" class="btn btn-pagination btn-primary">Pág.Ant.</a>
+    <a href="/products?page={{prevPage}}" class="btn btn-pagination btn-primary">Pág.Ant.</a>
     {{/if}}
     {{else}}
     <span class="btn btn-pagination btn-primary">Pág.Ant.</span>
@@ -105,15 +105,15 @@
 
     {{#if hasNextPage}}
     {{#if sort}}
-    <a href="/api/products/?page={{nextPage}}&sort={{sort}} " class="btn btn-pagination btn-primary">Pág.Sig.</a>
+    <a href="/products?page={{nextPage}}&sort={{sort}} " class="btn btn-pagination btn-primary">Pág.Sig.</a>
     {{else}}
-    <a href="/api/products/?page={{nextPage}}" class="btn btn-pagination btn-primary">Pág.Sig.</a>
+    <a href="/products?page={{nextPage}}" class="btn btn-pagination btn-primary">Pág.Sig.</a>
     {{/if}}
     {{else}}
     <span class="btn btn-pagination btn-primary">Pág.Sig.</span>
     {{/if}}
 
-    <a href="/api/products/?page={{totalPages}}{{#if sort}}&sort={{sort}}{{/if}}"
+    <a href="/products?page={{totalPages}}{{#if sort}}&sort={{sort}}{{/if}}"
       class="btn btn-pagination btn-primary">Ult.Pág.</a>
   </div>
 

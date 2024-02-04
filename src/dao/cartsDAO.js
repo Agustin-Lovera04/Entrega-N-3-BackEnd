@@ -52,12 +52,11 @@ export class CartsDAO{
               quantity: 1,
             });
           }
-      
           try {
             let cartMod = await cartsModel.updateOne(
               { _id: cid },
               { products: getCart.products }
-            );
+              );
             console.log(cartMod);
             if (cartMod.modifiedCount > 0) {
               console.log("Modificado");
