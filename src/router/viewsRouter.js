@@ -85,7 +85,11 @@ router.get('/carts/:id', passportCall('jwt'), securityAcces(["public"]), async (
 });
 
 router.get('/purchase/:tid',passportCall('jwt'), securityAcces(["public"]), async (req, res) =>{
-  let ticket = await ticketService.getTicketByID(req)
+  let {tid} = req.params
+  console.log(tid)
+
+ /*  console.log(req.data) */
+  let ticket = await ticketService.getTicketByID(tid)
   res.render('ticket', ticket)
 })
 

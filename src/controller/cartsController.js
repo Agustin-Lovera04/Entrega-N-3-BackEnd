@@ -97,12 +97,12 @@ export class CartsController {
         console.log("fallo el agregado de producto");
         return null;
       }
+/* 
+/*       let body = {stock: product.stock -1} 
 
-      let body = {stock: product.stock -1}
-
-      let saveModProduct = productsService.updateProduct(pid, body)
+      let saveModProduct = productsService.updateProduct(pid/* , body )
       console.log('stock actualizado')
-      
+       */
       console.log("carro modificado: " + cartMod);
       return res.status(200).json({ cartMod });
     } catch (error) {
@@ -308,13 +308,13 @@ static async confirmBuy(req, res) {
     const total = prodOK.reduce((acc, prod) => acc + parseFloat(prod.subtotal), 0).toFixed(2);
 
     let ticket = await ticketService.createTicket({code: v4(),amount:total, purchaser: user.email});
-
+    req.ticket =ticket
     if (!ticket) {
       console.log('Error al crear el ticket');
       return null;
     }
 
-    return res.status(200).json({ ticket });
+    return res.status(200).json({ ticketId: ticket._id });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: error.message });

@@ -37,15 +37,32 @@
   </div>
 
 <script>
-const confirmBuy= async(cid)=>{
-console.log(cid)
-  let response = await fetch(`http://localhost:8080/api/carts/${cid}/purchase`,{
-    method:"post"
-  })
-  let data= await response.json()
-  console.log(data)
-  let tid = data._id
-window.location.href= `/purchase/${tid}`
+const confirmBuy = async (cid) => {
+  try {
+    console.log(cid);
 
-}
+    let response = await fetch(`http://localhost:8080/api/carts/${cid}/purchase`, {
+      method: "post",
+    });
+
+    if (!response.ok) {
+      // Manejar errores de la solicitud
+      console.error("Error al confirmar la compra");
+      return;
+    }
+
+    let data = await response.json();
+
+    // Asegúrate de que la respuesta contenga un ticket
+    if (data.ticketId) {
+      return window.location.href = `/purchase/${data.ticketId}`;
+
+    } else {
+      console.error("La respuesta no contiene un ticket válido");
+    }
+  } catch (error) {
+    console.error("Error al confirmar la compra:", error);
+  }
+};
+
 </script>

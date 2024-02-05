@@ -12,7 +12,7 @@ export class TicketService{
     }
 
     async getTicketByID(tid){
-        return await this.dao.getTicketByID
+        return await this.dao.getTicketByID(tid)
     }
 }
 
