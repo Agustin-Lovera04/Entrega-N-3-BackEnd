@@ -2,6 +2,8 @@ import { cartsService } from "../services/carts.Service.js";
 import mongoose from "mongoose";
 import { io } from "../app.js";
 import { productsService } from "../services/products.Service.js";
+import { ticketService } from "../services/ticket.Service.js";
+import { v4 } from "uuid";
 
 function idValid(id, res) {
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -55,7 +57,7 @@ export class CartsController {
     }); 
     console.log('ESTE ES GET CART ' + getCart) */
 
-     return { cart: getCart/* ,total */};
+     return getCart
     } catch (error) {
       return res.status(500).json({
         error: error.message,
@@ -247,5 +249,77 @@ static async modifiedProductInCart(req,res){
     return res.status(500).json({ error: error.message });
   }
 }
+
+static async confirmBuy(req, res) {
+  try {
+    let user = req.user
+    let { cid } = req.params;
+    let valid = idValid(cid, res);
+    if (valid) {
+      console.log("cid invalido");
+      return null;
+    }
+
+    let cart = await cartsService.getCartById(cid);
+
+    if (!cart) {
+      console.log('Fallo al obtener el carrito');
+      return null;
+    }
+
+    if (!cart.products || cart.products.length === 0) {
+      console.log('El carrito está vacío');
+      return null;
+    }
+
+    let prodOK = [];
+    let prodCancel = [];
+
+    for (const p of cart.products) {
+      let id = p.product._id
+      let prodsBD = await productsService.getProductById(id);
+      let stock = prodsBD.stock - p.quantity;
+
+      if (stock < 0) {
+        console.log(`Stock INSUFICIENTE de producto: ${p.product.title}`);
+        prodCancel.push(p);
+      } else {
+        prodOK.push(p);
+        let prodMod = await productsService.updateProduct(p.product._id, { stock: stock });
+        if (!prodMod) {
+          console.log('Error al actualizar stock');
+          return null;
+        }
+      }
+    }
+/* for of, para podeer usar await */
+    for (const prod of prodOK) {
+      let clearCart = await cartsService.deleteProductInCart(cid, prod.product._id);
+      if (!clearCart) {
+        console.log('Error al eliminar producto del carrito');
+        return null;
+      }
+    }
+
+    prodOK.forEach((prod) => {
+      prod.subtotal = (prod.product.price * prod.quantity).toFixed(2);
+    });
+
+    const total = prodOK.reduce((acc, prod) => acc + parseFloat(prod.subtotal), 0).toFixed(2);
+
+    let ticket = await ticketService.createTicket({code: v4(),amount:total, purchaser: user.email});
+
+    if (!ticket) {
+      console.log('Error al crear el ticket');
+      return null;
+    }
+
+    return res.status(200).json({ ticket });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: error.message });
+  }
+}
+
 
 }

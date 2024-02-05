@@ -27,3 +27,5 @@ router.delete("/:cid", passportCall('jwt'),securityAcces(["admin"]),CartsControl
 router.put("/:id", passportCall('jwt'),securityAcces(["admin"]),CartsController.updateCart);
 
 router.put("/:cid/product/:pid", passportCall('jwt'),securityAcces(["public"]),CartsController.modifiedProductInCart);
+
+router.post("/:cid/purchase", passportCall('jwt'),upload.none(), securityAcces(["public"]),CartsController.confirmBuy);

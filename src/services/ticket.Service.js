@@ -10,6 +10,10 @@ export class TicketService{
     async createTicket(content){
         return await this.dao.createTicket(content)
     }
+
+    async getTicketByID(tid){
+        return await this.dao.getTicketByID
+    }
 }
 
 import { TicketsDAO } from "../dao/ticketsDAO.js"

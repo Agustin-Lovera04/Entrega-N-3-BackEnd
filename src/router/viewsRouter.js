@@ -4,6 +4,7 @@ import { passportCall, securityAcces } from "../utils.js";
 import { currentDTO } from "../DTO/currentDTO.js";
 import { ProductsController } from "../controller/productsController.js";
 import { CartsController } from "../controller/cartsController.js";
+import { ticketService } from "../services/ticket.Service.js";
 export const router = Router();
 
 export const auth =(req,res,next)=>{
@@ -67,15 +68,27 @@ router.get('/carts', passportCall('jwt'), securityAcces(["public"]),async (req,r
     res.status(500).json({ error: error.message });
   }
 })
-router.get('/carts/:id', passportCall('jwt'), securityAcces(["public"]),async (req,res)=>{
+router.get('/carts/:id', passportCall('jwt'), securityAcces(["public"]), async (req, res) => {
   try {
-    const cart = await CartsController.getCartById(req)
+    const cart = await CartsController.getCartById(req);
     
-    return res.render('viewDetailCarts', cart)
+    cart.products.forEach(prod => {
+      prod.subtotal = (prod.product.price * prod.quantity).toFixed(2)
+    });
+/* parseFloatse utiliza para convertir el prod.subtotalreverso en un número de punto flotante antes de agregarlo al acumulador en la reducefunción. Además, el final totalse redondea a dos decimales utilizando .toFixed(2) */
+    const total = cart.products.reduce((acc, prod) => acc + parseFloat(prod.subtotal), 0).toFixed(2);
+
+    return res.render('viewDetailCarts', { cart, total });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
+});
+
+router.get('/purchase/:tid',passportCall('jwt'), securityAcces(["public"]), async (req, res) =>{
+  let ticket = await ticketService.getTicketByID(req)
+  res.render('ticket', ticket)
 })
+
 
 /* ENDPOINT PARA PROBAR SEGURIDAD */
 router.get('/support', passportCall('jwt'),securityAcces(["admin"]),(req,res)=>{

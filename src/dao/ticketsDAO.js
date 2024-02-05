@@ -1,19 +1,9 @@
-import { ticketsModel } from "./models/purchaseTicket.js";
+import { ticketsModel } from "./models/ticketModel.js";
 
 
 export class TicketsDAO{
     constructor(){}
-    async getTicket(id){
-        try {
-            let ticket = await ticketsModel.findOne(id)
-            return ticket
-        } catch (error) {
-            console.log(error.message);
-            return error;
-        }
-    }
-
-    async createTicket(content){
+    async createTicket(content, total){
         try {
             let newTicket = ticketsModel.create(content)
             return newTicket
@@ -21,5 +11,15 @@ export class TicketsDAO{
             console.log(error.message);
             return error;   
         }
+    }
+
+    async getTicketByID(tid){
+        console.log(tid)
+     try {
+        let ticket = ticketsModel.findOne(tid)
+        return ticket
+     } catch (error) {
+        return error
+     }
     }
 }

@@ -36,9 +36,12 @@ export class ProductsDAO{
        async getProductById(id) {
         console.log('entro')
         let getProduct;
+        console.log('IDDDD')
+        console.log(id)
         try {
           getProduct = await productsModel.findOne({ status: true, _id: id });
-          console.log("producto encontrado por id" + getProduct);
+          console.log('PRODUCT');
+          console.log(getProduct);
           return getProduct;
         } catch (error) {
           console.log("No se encontro Producto con Id:" + id);

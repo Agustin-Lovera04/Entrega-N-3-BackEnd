@@ -1,9 +1,8 @@
-<div id="cart" cart='{{cart._id}}'></div>
- <h1 class="text-center mt-4 view-title">DETALLE CARRITO:</h1>
-  <div id="cartContainer" class="container mt-4">
+<h1 class="text-center mt-4 view-title">DETALLE CARRITO:</h1>
 <hr class="hr-divider" />
+  <div id="containerCart" class="container mt-4">
 
-   {{!--  <div id="containerProducts" class="row justify-content-center">
+    <div id="containerProducts" class="row justify-content-center">
       <div class="col-md-8">
         <div class="card">
           <ul class="list-group list-group-flush">
@@ -20,13 +19,13 @@
                   <p class="card-text">{{this.product.description}}</p>
                   <p class="card-text"><strong>Id producto:</strong>{{this.product._id}}</p>
                   <p class="card-text"><strong>Cantidad:</strong>{{this.quantity}}</p>
-                  <p class="card-text"><strong>Precio Unitario: $-</strong>{{this.product.price}}</p>
-                  <p class="card-text"><strong>Subtotal: $</strong>{{multiply this.product.price this.quantity}}</p>
+                  <p class="card-text"><strong>Subtotal:</strong>{{this.subtotal}}</p>
                   <hr class="hr-divider" />
                   {{/each}}
 
                   <h4 class="card-title view-title">TOTAL: {{total}}</h4>
-                  <button class="btn btn-primary">Confirmar compra</button>
+                 <button id="btnConfirm" class="btn btn-primary" onclick="confirmBuy('{{cart._id}}')">Confirmar compra</button>
+
                 </div>
 
               </h4>
@@ -36,6 +35,17 @@
       </div>
     </div>
   </div>
- --}}
-  <script src="/socket.io/socket.io.js"></script>
-  <script src="/js/detailCart.js"></script>
+
+<script>
+const confirmBuy= async(cid)=>{
+console.log(cid)
+  let response = await fetch(`http://localhost:8080/api/carts/${cid}/purchase`,{
+    method:"post"
+  })
+  let data= await response.json()
+  console.log(data)
+  let tid = data._id
+window.location.href= `/purchase/${tid}`
+
+}
+</script>
