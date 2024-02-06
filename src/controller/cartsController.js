@@ -313,8 +313,8 @@ static async confirmBuy(req, res) {
       console.log('Error al crear el ticket');
       return null;
     }
-
-    return res.status(200).json({ ticketId: ticket._id });
+    
+    return res.status(200).json({ ticket:ticket });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: error.message });

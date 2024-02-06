@@ -46,17 +46,15 @@ const confirmBuy = async (cid) => {
     });
 
     if (!response.ok) {
-      // Manejar errores de la solicitud
       console.error("Error al confirmar la compra");
       return;
     }
 
     let data = await response.json();
 
-    // Asegúrate de que la respuesta contenga un ticket
-    if (data.ticketId) {
-      return window.location.href = `/purchase/${data.ticketId}`;
-
+    if (data.ticket) {
+      return window.location.href = `/purchase/${data.ticket._id}`;
+ 
     } else {
       console.error("La respuesta no contiene un ticket válido");
     }

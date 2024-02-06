@@ -75,7 +75,7 @@ router.get('/carts/:id', passportCall('jwt'), securityAcces(["public"]), async (
     cart.products.forEach(prod => {
       prod.subtotal = (prod.product.price * prod.quantity).toFixed(2)
     });
-/* parseFloatse utiliza para convertir el prod.subtotalreverso en un número de punto flotante antes de agregarlo al acumulador en la reducefunción. Además, el final totalse redondea a dos decimales utilizando .toFixed(2) */
+/* parseFloatse utiliza para convertir el prod.subtot al reverso en un número de punto flotante antes de agregarlo al acumulador en la reducefunción. Además, el final totalse redondea a dos decimales utilizando .toFixed(2) */
     const total = cart.products.reduce((acc, prod) => acc + parseFloat(prod.subtotal), 0).toFixed(2);
 
     return res.render('viewDetailCarts', { cart, total });
@@ -88,9 +88,9 @@ router.get('/purchase/:tid',passportCall('jwt'), securityAcces(["public"]), asyn
   let {tid} = req.params
   console.log(tid)
 
- /*  console.log(req.data) */
   let ticket = await ticketService.getTicketByID(tid)
-  res.render('ticket', ticket)
+  console.log(ticket)
+  res.render('ticket', {ticket})
 })
 
 

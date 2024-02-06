@@ -14,9 +14,9 @@ export class TicketsDAO{
     }
 
     async getTicketByID(tid){
-        console.log(tid)
+
      try {
-        let ticket = ticketsModel.findOne(tid)
+        let ticket = ticketsModel.findOne({_id: tid})
         return ticket
      } catch (error) {
         return error
